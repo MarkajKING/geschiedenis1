@@ -1,11 +1,11 @@
 import * as PIXI from 'pixi.js'
 import { Game } from './game'
-import { Button } from './button'
+import { SettingButton } from './settingButton'
 
 export class UI extends PIXI.Container{
     private game: Game
     private timeMachine: PIXI.Text
-    private settings: Button
+    private settings: SettingButton
 
     constructor(game: Game){
         super()
@@ -22,7 +22,7 @@ export class UI extends PIXI.Container{
         this.timeMachine.x = 100
         this.timeMachine.y = 10
 
-        this.settings = new Button(this.game.loader.resources["settingsTexture"].texture!, this)  
+        this.settings = new SettingButton(this.game.loader.resources["settingsTexture"].texture!, this)  
         this.game.pixi.stage.addChild(this.settings)
         this.settings.x = 10
         this.settings.y = 10

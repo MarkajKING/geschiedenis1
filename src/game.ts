@@ -10,11 +10,13 @@ import { Farmer } from './farmer'
 import { Assets } from './assets'
 import { Brandaan } from './brandaan'
 import { UI } from './ui'
+import { Button } from './button'
+import { Landlord } from './landlord'
 
 export class Game {
     private pixiWidth = 800
     private pixiHeight = 500
-    
+
     public pixi: PIXI.Application
     public loader: PIXI.Loader
     private brandaan: Brandaan
@@ -46,23 +48,31 @@ export class Game {
         this.pixi.ticker.add((delta: number) => this.update(delta))
 
         //create knight
-        let knight = new Knight(this.loader.resources["knightTexture"].texture!, this, 700, 50)   
+        let knight = new Knight(this.loader.resources["knightTexture"].texture!, this, 700, 50)
         this.characters.push(knight)
-        this.pixi.stage.addChild(knight) 
+        this.pixi.stage.addChild(knight)
 
         //create farmer
-        let farmer = new Farmer(this.loader.resources["farmerTexture"].texture!, this, 750, 400)   
+        let farmer = new Farmer(this.loader.resources["farmerTexture"].texture!, this, 750, 400)
         this.characters.push(farmer)
-        this.pixi.stage.addChild(farmer)  
+        this.pixi.stage.addChild(farmer)
 
         //create landlord
-        let landlord = new Farmer(this.loader.resources["landlordTexture"].texture!, this, 100, 300)   
+        let landlord = new Landlord(this.loader.resources["landlordTexture"].texture!, this, 100, 300)
         this.characters.push(landlord)
         this.pixi.stage.addChild(landlord)  
 
         //create ui
         this.interface = new UI(this)
         this.pixi.stage.addChild(this.interface)
+        this.pixi.stage.addChild(landlord)
+
+        landlord.on('click', () => this.onClick() )
+    }
+
+    private onClick() {
+        let button = new Button(100, 250, 'hoi')
+        this.pixi.stage.addChild(button)
     }
 
     public spriteLoadCompleted() {

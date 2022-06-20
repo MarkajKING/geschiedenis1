@@ -534,6 +534,8 @@ var _farmer = require("./farmer");
 var _assets = require("./assets");
 var _brandaan = require("./brandaan");
 var _ui = require("./ui");
+var _button = require("./button");
+var _landlord = require("./landlord");
 class Game {
     pixiWidth = 800;
     pixiHeight = 500;
@@ -572,12 +574,19 @@ class Game {
         this.characters.push(farmer);
         this.pixi.stage.addChild(farmer);
         //create landlord
-        let landlord = new _farmer.Farmer(this.loader.resources["landlordTexture"].texture, this, 100, 300);
+        let landlord = new _landlord.Landlord(this.loader.resources["landlordTexture"].texture, this, 100, 300);
         this.characters.push(landlord);
         this.pixi.stage.addChild(landlord);
         //create ui
         this.interface = new _ui.UI(this);
         this.pixi.stage.addChild(this.interface);
+        this.pixi.stage.addChild(landlord);
+        landlord.on('click', ()=>this.onClick()
+        );
+    }
+    onClick() {
+        let button = new _button.Button(100, 250, 'hoi');
+        this.pixi.stage.addChild(button);
     }
     spriteLoadCompleted() {
         //create background
@@ -605,7 +614,7 @@ class Game {
 }
 let game = new Game();
 
-},{"pixi.js":"dsYej","./images/cover.png":"9pV12","./images/knight.png":"g6XyF","./images/farmer.png":"9BQiJ","./images/landlord.png":"7zXGs","./images/settings.png":"iBKS6","./knight":"1MEgH","./farmer":"6BICu","./assets":"jyCU7","./brandaan":"j22td","./ui":"iGTI0","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./images/cover.png":"9pV12","./images/knight.png":"g6XyF","./images/farmer.png":"9BQiJ","./images/landlord.png":"7zXGs","./images/settings.png":"iBKS6","./knight":"1MEgH","./farmer":"6BICu","./assets":"jyCU7","./brandaan":"j22td","./ui":"iGTI0","./button":"hHDeU","./landlord":"PxGYI","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37331,7 +37340,7 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "UI", ()=>UI
 );
 var _pixiJs = require("pixi.js");
-var _button = require("./button");
+var _settingButton = require("./settingButton");
 class UI extends _pixiJs.Container {
     constructor(game){
         super();
@@ -37348,20 +37357,21 @@ class UI extends _pixiJs.Container {
         this.addChild(this.timeMachine);
         this.timeMachine.x = 100;
         this.timeMachine.y = 10;
-        this.settings = new _button.Button(this.game.loader.resources["settingsTexture"].texture, this);
+        this.settings = new _settingButton.SettingButton(this.game.loader.resources["settingsTexture"].texture, this);
         this.game.pixi.stage.addChild(this.settings);
         this.settings.x = 10;
         this.settings.y = 10;
     }
 }
 
-},{"pixi.js":"dsYej","./button":"hHDeU","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hHDeU":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./settingButton":"lHXkm","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lHXkm":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Button", ()=>Button
+parcelHelpers.export(exports, "SettingButton", ()=>SettingButton
 );
 var _pixiJs = require("pixi.js");
-class Button extends _pixiJs.Sprite {
+var _settings = require("./settings");
+class SettingButton extends _pixiJs.Sprite {
     constructor(texture, ui){
         super(texture);
         this.scale.set(0.03);
@@ -37370,10 +37380,67 @@ class Button extends _pixiJs.Sprite {
         );
     }
     onClick() {
-    // new settings()
+        new _settings.Settings();
     }
 }
 
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
+},{"pixi.js":"dsYej","./settings":"5blfu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5blfu":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Settings", ()=>Settings
+);
+var _pixiJs = require("pixi.js");
+class Settings extends _pixiJs.Container {
+    constructor(texture, ui){
+        super();
+    }
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hHDeU":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Button", ()=>Button
+);
+var _pixiJs = require("pixi.js");
+class Button extends _pixiJs.Graphics {
+    constructor(x, y, text){
+        super();
+        this.innerHTML = text;
+        this.beginFill(16711680);
+        this.drawRoundedRect(0, 0, 380, 90, 15);
+        this.endFill();
+        this.x = x - this.getBounds().width / 2;
+        this.y = y - this.getBounds().height / 2;
+        const buttonText = new _pixiJs.Text(this.innerHTML, {
+            "align": "center",
+            "fontFamily": "Comic Sans MS",
+            "fontSize": 50
+        });
+        buttonText.x = this.getBounds().width / 2;
+        buttonText.y = this.getBounds().height / 2;
+        buttonText.anchor.set(0.5);
+        this.addChild(buttonText);
+        this.buttonMode = true;
+        this.interactive = true;
+    }
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"PxGYI":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Landlord", ()=>Landlord
+);
+var _character = require("./character");
+class Landlord extends _character.Character {
+    constructor(texture, game, x, y){
+        super(texture, game);
+        this.game = game;
+        this.x = x;
+        this.y = y;
+        this.interactive = true;
+    }
+}
+
+},{"./character":"a2c8k","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
 
 //# sourceMappingURL=index.901f85c2.js.map
