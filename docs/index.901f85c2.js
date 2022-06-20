@@ -579,6 +579,7 @@ class Game {
         //create farmer
         let farmer = new _farmer.Farmer(this.loader.resources['farmerTexture'].texture, this, 750, 400);
         //click event for farmer
+        farmer.interactive = true;
         farmer.on('click', function() {
             console.log('Ik ben een boer');
         });
@@ -587,6 +588,7 @@ class Game {
         //create landlord
         this.landlord = new _landlord.Landlord(this.loader.resources['landlordTexture'].texture, this, 100, 300);
         //click event for landlord
+        this.landlord.interactive = true;
         this.landlord.on('click', function() {
             console.log('Ik ben de koning');
         });

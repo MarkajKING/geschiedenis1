@@ -80,6 +80,7 @@ export class Game {
       400
     );
     //click event for farmer
+    farmer.interactive = true
     farmer.on('click', function () {
       console.log('Ik ben een boer');
     });
@@ -94,6 +95,7 @@ export class Game {
       300
     );
     //click event for landlord
+    this.landlord.interactive = true
     this.landlord.on('click', function () {
       console.log('Ik ben de koning');
     });
