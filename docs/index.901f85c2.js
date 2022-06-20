@@ -540,6 +540,8 @@ class Game {
     pixiWidth = 800;
     pixiHeight = 500;
     characters = [];
+    //set timer on 15 minutes
+    timeUntilFinish = 54000;
     constructor(){
         // this._pixi = new PIXI.Application({ width: 1440, height: 900})
         this.pixi = new _pixiJs.Application({
@@ -566,15 +568,15 @@ class Game {
         this.pixi.ticker.add((delta)=>this.update(delta)
         );
         //create knight
-        let knight = new _knight.Knight(this.loader.resources["knightTexture"].texture, this, 700, 50);
+        let knight = new _knight.Knight(this.loader.resources['knightTexture'].texture, this, 700, 50);
         this.characters.push(knight);
         this.pixi.stage.addChild(knight);
         //create farmer
-        let farmer = new _farmer.Farmer(this.loader.resources["farmerTexture"].texture, this, 750, 400);
+        let farmer = new _farmer.Farmer(this.loader.resources['farmerTexture'].texture, this, 750, 400);
         this.characters.push(farmer);
         this.pixi.stage.addChild(farmer);
         //create landlord
-        let landlord = new _landlord.Landlord(this.loader.resources["landlordTexture"].texture, this, 100, 300);
+        let landlord = new _landlord.Landlord(this.loader.resources['landlordTexture'].texture, this, 100, 300);
         this.characters.push(landlord);
         this.pixi.stage.addChild(landlord);
         //create ui
@@ -590,13 +592,18 @@ class Game {
     }
     spriteLoadCompleted() {
         //create background
-        let cover = new _pixiJs.Sprite(this.loader.resources["coverTexture"].texture);
+        let cover = new _pixiJs.Sprite(this.loader.resources['coverTexture'].texture);
         cover.height = this.pixiHeight;
         cover.width = this.pixiWidth;
         this.pixi.stage.addChild(cover);
     }
     update(delta) {
         this.brandaan.update(delta);
+        //start timer
+        this.timeUntilFinish -= delta;
+        let secondsLeft = Math.floor(this.timeUntilFinish / 60);
+        if (this.timeUntilFinish <= 0) console.log('Je zit voor altijd vast in deze wereld!');
+        else console.log(`Je hebt nog ${secondsLeft} over!`);
     }
     createBrandaanFrames() {
         // create an array of textures from an image path
