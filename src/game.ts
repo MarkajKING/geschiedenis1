@@ -60,6 +60,11 @@ export class Game {
       700,
       50
     );
+    //click event for knight
+    knight.interactive = true;
+    knight.on('click', function () {
+      console.log('Ik ben een ridder');
+    });
     this.characters.push(knight);
     this.pixi.stage.addChild(knight);
 
@@ -70,6 +75,11 @@ export class Game {
       750,
       400
     );
+    //click event for farmer
+    farmer.interactive = true;
+    farmer.on('click', function () {
+      console.log('Ik ben een boer');
+    });
     this.characters.push(farmer);
     this.pixi.stage.addChild(farmer);
 
@@ -80,6 +90,11 @@ export class Game {
       100,
       300
     );
+    //click event for landlord
+    landlord.interactive = true;
+    landlord.on('click', function () {
+      console.log('Ik ben de koning');
+    });
     this.characters.push(landlord);
     this.pixi.stage.addChild(landlord);
 
