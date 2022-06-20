@@ -3,20 +3,23 @@ import coverImage from './images/cover.png'
 import knightImage from "./images/knight.png"
 import farmerImage from "./images/farmer.png"
 import landlordImage from "./images/landlord.png"
+import settingsImage from "./images/settings.png"
 import { Character } from './character'
 import { Knight } from './knight'
 import { Farmer } from './farmer'
 import { Assets } from './assets'
 import { Brandaan } from './brandaan'
+import { UI } from './ui'
 
 export class Game {
     private pixiWidth = 800
     private pixiHeight = 500
     
     public pixi: PIXI.Application
-    private loader: PIXI.Loader
+    public loader: PIXI.Loader
     private brandaan: Brandaan
     private characters: Character[] = []
+    private interface: UI
 
     constructor() {
 
@@ -31,6 +34,7 @@ export class Game {
         this.loader.add('knightTexture', knightImage)
         this.loader.add('farmerTexture', farmerImage)
         this.loader.add('landlordTexture', landlordImage)
+        this.loader.add('settingsTexture', settingsImage)
         this.loader.load(()=>this.spriteLoadCompleted());
     }
 
@@ -55,6 +59,10 @@ export class Game {
         let landlord = new Farmer(this.loader.resources["landlordTexture"].texture!, this, 100, 300)   
         this.characters.push(landlord)
         this.pixi.stage.addChild(landlord)  
+
+        //create ui
+        this.interface = new UI(this)
+        this.pixi.stage.addChild(this.interface)
     }
 
     public spriteLoadCompleted() {
