@@ -534,12 +534,13 @@ var _farmer = require("./farmer");
 var _assets = require("./assets");
 var _brandaan = require("./brandaan");
 var _ui = require("./ui");
-var _button = require("./button");
 var _landlord = require("./landlord");
+var _speechbubble = require("./speechbubble");
 class Game {
     pixiWidth = 800;
     pixiHeight = 500;
     characters = [];
+    landlordClickCounter = 0;
     //set timer on 15 minutes
     timeUntilFinish = 54000;
     constructor(){
@@ -570,7 +571,6 @@ class Game {
         //create knight
         let knight = new _knight.Knight(this.loader.resources['knightTexture'].texture, this, 700, 50);
         //click event for knight
-        knight.interactive = true;
         knight.on('click', function() {
             console.log('Ik ben een ridder');
         });
@@ -579,31 +579,35 @@ class Game {
         //create farmer
         let farmer = new _farmer.Farmer(this.loader.resources['farmerTexture'].texture, this, 750, 400);
         //click event for farmer
-        farmer.interactive = true;
         farmer.on('click', function() {
             console.log('Ik ben een boer');
         });
         this.characters.push(farmer);
         this.pixi.stage.addChild(farmer);
         //create landlord
-        let landlord = new _landlord.Landlord(this.loader.resources['landlordTexture'].texture, this, 100, 300);
+        this.landlord = new _landlord.Landlord(this.loader.resources['landlordTexture'].texture, this, 100, 300);
         //click event for landlord
-        landlord.interactive = true;
-        landlord.on('click', function() {
+        this.landlord.on('click', function() {
             console.log('Ik ben de koning');
         });
-        this.characters.push(landlord);
-        this.pixi.stage.addChild(landlord);
+        this.characters.push(this.landlord);
+        this.pixi.stage.addChild(this.landlord);
         //create ui
         this.interface = new _ui.UI(this);
         this.pixi.stage.addChild(this.interface);
-        this.pixi.stage.addChild(landlord);
-        landlord.on('click', ()=>this.onClick()
+        this.pixi.stage.addChild(this.landlord);
+        this.landlord.on('click', ()=>this.onLandlordClick()
         );
     }
-    onClick() {
-        let button = new _button.Button(100, 250, 'hoi');
-        this.pixi.stage.addChild(button);
+    onLandlordClick() {
+        if (this.landlord.dialoge.length === this.landlordClickCounter) {
+            this.pixi.stage.removeChild(this.speechBubble);
+            return;
+        }
+        if (this.speechBubble == null) this.speechBubble = new _speechbubble.Speechbubble(150, 250, this.landlord.dialoge[this.landlordClickCounter]);
+        else this.speechBubble.speechText.text = this.landlord.dialoge[this.landlordClickCounter];
+        this.pixi.stage.addChild(this.speechBubble);
+        this.landlordClickCounter++;
     }
     spriteLoadCompleted() {
         //create background
@@ -636,7 +640,7 @@ class Game {
 }
 let game = new Game();
 
-},{"pixi.js":"dsYej","./images/cover.png":"9pV12","./assets":"jyCU7","./brandaan":"j22td","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/knight.png":"g6XyF","./images/farmer.png":"9BQiJ","./images/landlord.png":"7zXGs","./knight":"1MEgH","./farmer":"6BICu","./images/settings.png":"iBKS6","./ui":"iGTI0","./button":"hHDeU","./landlord":"PxGYI"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./images/cover.png":"9pV12","./assets":"jyCU7","./brandaan":"j22td","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/knight.png":"g6XyF","./images/farmer.png":"9BQiJ","./images/landlord.png":"7zXGs","./images/settings.png":"iBKS6","./knight":"1MEgH","./farmer":"6BICu","./ui":"iGTI0","./landlord":"PxGYI","./speechbubble":"e8i23"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37307,6 +37311,9 @@ module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "farmer
 },{"./helpers/bundle-url":"lgJ39"}],"7zXGs":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "landlord.ff033fb2.png" + "?" + Date.now();
 
+},{"./helpers/bundle-url":"lgJ39"}],"iBKS6":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "settings.b980eab7.png" + "?" + Date.now();
+
 },{"./helpers/bundle-url":"lgJ39"}],"1MEgH":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -37335,6 +37342,7 @@ class Character extends _pixiJs.Sprite {
         this.texture = texture;
         this.scale.set(-2, 2);
         this.anchor.set(0.5);
+        this.interactive = true;
     }
 }
 
@@ -37353,10 +37361,7 @@ class Farmer extends _character.Character {
     }
 }
 
-},{"./character":"a2c8k","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iBKS6":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "settings.b980eab7.png" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"lgJ39"}],"iGTI0":[function(require,module,exports) {
+},{"./character":"a2c8k","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iGTI0":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "UI", ()=>UI
@@ -37418,35 +37423,6 @@ class Settings extends _pixiJs.Container {
     }
 }
 
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hHDeU":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Button", ()=>Button
-);
-var _pixiJs = require("pixi.js");
-class Button extends _pixiJs.Graphics {
-    constructor(x, y, text){
-        super();
-        this.innerHTML = text;
-        this.beginFill(16711680);
-        this.drawRoundedRect(0, 0, 380, 90, 15);
-        this.endFill();
-        this.x = x - this.getBounds().width / 2;
-        this.y = y - this.getBounds().height / 2;
-        const buttonText = new _pixiJs.Text(this.innerHTML, {
-            "align": "center",
-            "fontFamily": "Comic Sans MS",
-            "fontSize": 50
-        });
-        buttonText.x = this.getBounds().width / 2;
-        buttonText.y = this.getBounds().height / 2;
-        buttonText.anchor.set(0.5);
-        this.addChild(buttonText);
-        this.buttonMode = true;
-        this.interactive = true;
-    }
-}
-
 },{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"PxGYI":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -37454,15 +37430,48 @@ parcelHelpers.export(exports, "Landlord", ()=>Landlord
 );
 var _character = require("./character");
 class Landlord extends _character.Character {
+    dialoge = [
+        "Hallo vreemdeling!",
+        "Je bent in het koninkrijk",
+        "van Karel de Grote!",
+        "Je bent in de middeleeuwen!"
+    ];
     constructor(texture, game, x, y){
         super(texture, game);
         this.game = game;
         this.x = x;
         this.y = y;
+    }
+}
+
+},{"./character":"a2c8k","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"e8i23":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Speechbubble", ()=>Speechbubble
+);
+var _pixiJs = require("pixi.js");
+class Speechbubble extends _pixiJs.Graphics {
+    constructor(x, y, speech){
+        super();
+        this.lineStyle(2, 0, 1);
+        this.beginFill(16777215);
+        this.drawRect(0, 0, 225, 25);
+        this.endFill();
+        this.x = x - this.getBounds().width / 2;
+        this.y = y - this.getBounds().height / 2;
+        this.speechText = new _pixiJs.Text(speech, {
+            "align": "center",
+            "fontFamily": "VT323",
+            "fontSize": 15
+        });
+        this.speechText.x = this.getBounds().width / 2;
+        this.speechText.y = this.getBounds().height / 2;
+        this.speechText.anchor.set(0.5);
+        this.addChild(this.speechText);
         this.interactive = true;
     }
 }
 
-},{"./character":"a2c8k","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
 
 //# sourceMappingURL=index.901f85c2.js.map

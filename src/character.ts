@@ -10,5 +10,6 @@ export class Character extends PIXI.Sprite{
         this.texture = texture 
         this.scale.set(-2, 2) 
         this.anchor.set(0.5)
+        this.interactive = true
     }
 }

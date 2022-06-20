@@ -12,6 +12,7 @@ import { Brandaan } from './brandaan';
 import { UI } from './ui';
 import { Button } from './button';
 import { Landlord } from './landlord';
+import { Speechbubble } from './speechbubble';
 
 export class Game {
   private pixiWidth = 800;
@@ -22,6 +23,10 @@ export class Game {
   private brandaan: Brandaan;
   private characters: Character[] = [];
   private interface: UI;
+
+  private landlord: Landlord
+  private landlordClickCounter: number = 0
+  private speechBubble: Speechbubble
 
   //set timer on 15 minutes
   timeUntilFinish: number = 54000;
@@ -61,7 +66,6 @@ export class Game {
       50
     );
     //click event for knight
-    knight.interactive = true;
     knight.on('click', function () {
       console.log('Ik ben een ridder');
     });
@@ -76,7 +80,6 @@ export class Game {
       400
     );
     //click event for farmer
-    farmer.interactive = true;
     farmer.on('click', function () {
       console.log('Ik ben een boer');
     });
@@ -84,32 +87,43 @@ export class Game {
     this.pixi.stage.addChild(farmer);
 
     //create landlord
-    let landlord = new Landlord(
+    this.landlord = new Landlord(
       this.loader.resources['landlordTexture'].texture!,
       this,
       100,
       300
     );
     //click event for landlord
-    landlord.interactive = true;
-    landlord.on('click', function () {
+    this.landlord.on('click', function () {
       console.log('Ik ben de koning');
     });
-    this.characters.push(landlord);
-    this.pixi.stage.addChild(landlord);
+    this.characters.push(this.landlord);
+    this.pixi.stage.addChild(this.landlord);
 
     //create ui
     this.interface = new UI(this);
     this.pixi.stage.addChild(this.interface);
-    this.pixi.stage.addChild(landlord);
+    this.pixi.stage.addChild(this.landlord);
 
-    landlord.on('click', () => this.onClick());
+    this.landlord.on('click', () => this.onLandlordClick());
   }
 
-  private onClick() {
-    let button = new Button(100, 250, 'hoi');
-    this.pixi.stage.addChild(button);
-  }
+  private onLandlordClick() {
+    if (this.landlord.dialoge.length === this.landlordClickCounter) {
+        this.pixi.stage.removeChild(this.speechBubble)
+        return;
+    }
+
+    if (this.speechBubble == null) {
+        this.speechBubble = new Speechbubble(150, 250, this.landlord.dialoge[this.landlordClickCounter])
+    } else {
+        this.speechBubble.speechText.text = this.landlord.dialoge[this.landlordClickCounter];
+    }
+    this.pixi.stage.addChild(this.speechBubble)
+    this.landlordClickCounter++
+    
+}
+
 
   public spriteLoadCompleted() {
     //create background
