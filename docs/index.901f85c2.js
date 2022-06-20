@@ -636,7 +636,7 @@ class Game {
 }
 let game = new Game();
 
-},{"pixi.js":"dsYej","./images/cover.png":"9pV12","./images/knight.png":"g6XyF","./images/farmer.png":"9BQiJ","./images/landlord.png":"7zXGs","./images/settings.png":"iBKS6","./knight":"1MEgH","./farmer":"6BICu","./assets":"jyCU7","./brandaan":"j22td","./ui":"iGTI0","./button":"hHDeU","./landlord":"PxGYI","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./images/cover.png":"9pV12","./assets":"jyCU7","./brandaan":"j22td","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/knight.png":"g6XyF","./images/farmer.png":"9BQiJ","./images/landlord.png":"7zXGs","./knight":"1MEgH","./farmer":"6BICu","./images/settings.png":"iBKS6","./ui":"iGTI0","./button":"hHDeU","./landlord":"PxGYI"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37170,65 +37170,7 @@ exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
 exports.getOrigin = getOrigin;
 
-},{}],"g6XyF":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "knight.e1e4dec4.png" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"lgJ39"}],"9BQiJ":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "farmer.73f4aff5.png" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"lgJ39"}],"7zXGs":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "landlord.ff033fb2.png" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"lgJ39"}],"iBKS6":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "settings.b980eab7.png" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"lgJ39"}],"1MEgH":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Knight", ()=>Knight
-);
-var _character = require("./character");
-class Knight extends _character.Character {
-    constructor(texture, game, x, y){
-        super(texture, game);
-        this.game = game;
-        this.x = x;
-        this.y = y;
-    }
-}
-
-},{"./character":"a2c8k","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"a2c8k":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Character", ()=>Character
-);
-var _pixiJs = require("pixi.js");
-class Character extends _pixiJs.Sprite {
-    constructor(texture, game){
-        super(texture);
-        this.game = game;
-        this.texture = texture;
-        this.scale.set(-2, 2);
-        this.anchor.set(0.5);
-    }
-}
-
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6BICu":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Farmer", ()=>Farmer
-);
-var _character = require("./character");
-class Farmer extends _character.Character {
-    constructor(texture, game, x, y){
-        super(texture, game);
-        this.game = game;
-        this.x = x;
-        this.y = y;
-    }
-}
-
-},{"./character":"a2c8k","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jyCU7":[function(require,module,exports) {
+},{}],"jyCU7":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Assets", ()=>Assets
@@ -37356,7 +37298,65 @@ class Brandaan extends _pixiJs.AnimatedSprite {
     }
 }
 
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iGTI0":[function(require,module,exports) {
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"g6XyF":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "knight.e1e4dec4.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"9BQiJ":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "farmer.73f4aff5.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"7zXGs":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "landlord.ff033fb2.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"1MEgH":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Knight", ()=>Knight
+);
+var _character = require("./character");
+class Knight extends _character.Character {
+    constructor(texture, game, x, y){
+        super(texture, game);
+        this.game = game;
+        this.x = x;
+        this.y = y;
+    }
+}
+
+},{"./character":"a2c8k","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"a2c8k":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Character", ()=>Character
+);
+var _pixiJs = require("pixi.js");
+class Character extends _pixiJs.Sprite {
+    constructor(texture, game){
+        super(texture);
+        this.game = game;
+        this.texture = texture;
+        this.scale.set(-2, 2);
+        this.anchor.set(0.5);
+    }
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6BICu":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Farmer", ()=>Farmer
+);
+var _character = require("./character");
+class Farmer extends _character.Character {
+    constructor(texture, game, x, y){
+        super(texture, game);
+        this.game = game;
+        this.x = x;
+        this.y = y;
+    }
+}
+
+},{"./character":"a2c8k","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iBKS6":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "settings.b980eab7.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"iGTI0":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "UI", ()=>UI
