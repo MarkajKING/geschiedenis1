@@ -31,14 +31,9 @@ export class Game {
   //set timer on 15 minutes
   timeUntilFinish: number = 54000;
 
-  constructor() {
+  constructor(pixi: PIXI.Application) {
     // this._pixi = new PIXI.Application({ width: 1440, height: 900})
-    this.pixi = new PIXI.Application({
-      width: this.pixiWidth,
-      height: this.pixiHeight,
-      backgroundColor: 0x1099bb,
-    });
-    document.body.appendChild(this.pixi.view);
+    this.pixi = pixi
 
     new Assets(this);
 
@@ -163,4 +158,3 @@ export class Game {
   }
 }
 
-let game = new Game();
