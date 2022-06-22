@@ -101,8 +101,8 @@ export class Game {
     this.pixi.stage.addChild(this.landlord);
 
     //create ui
-    this.interface = new UI(this);
-    this.pixi.stage.addChild(this.interface);
+    // this.interface = new UI(this);
+    // this.pixi.stage.addChild(this.interface);
     this.pixi.stage.addChild(this.landlord);
 
     this.landlord.on('click', () => this.onLandlordClick());

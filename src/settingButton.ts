@@ -13,6 +13,6 @@ export class SettingButton extends PIXI.Sprite{
     }
 
     onClick(){
-    new Settings()
+        new Settings()
     }
 }

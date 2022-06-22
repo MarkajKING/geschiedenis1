@@ -533,7 +533,6 @@ var _knight = require("./knight");
 var _farmer = require("./farmer");
 var _assets = require("./assets");
 var _brandaan = require("./brandaan");
-var _ui = require("./ui");
 var _landlord = require("./landlord");
 var _speechbubble = require("./speechbubble");
 class Game {
@@ -593,8 +592,8 @@ class Game {
         this.characters.push(this.landlord);
         this.pixi.stage.addChild(this.landlord);
         //create ui
-        this.interface = new _ui.UI(this);
-        this.pixi.stage.addChild(this.interface);
+        // this.interface = new UI(this);
+        // this.pixi.stage.addChild(this.interface);
         this.pixi.stage.addChild(this.landlord);
         this.landlord.on('click', ()=>this.onLandlordClick()
         );
@@ -640,7 +639,7 @@ class Game {
 }
 let game = new Game();
 
-},{"pixi.js":"dsYej","./images/cover.png":"9pV12","./assets":"jyCU7","./brandaan":"j22td","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/knight.png":"g6XyF","./images/farmer.png":"9BQiJ","./images/landlord.png":"7zXGs","./images/settings.png":"iBKS6","./knight":"1MEgH","./farmer":"6BICu","./ui":"iGTI0","./landlord":"PxGYI","./speechbubble":"e8i23"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./images/cover.png":"9pV12","./assets":"jyCU7","./brandaan":"j22td","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/knight.png":"g6XyF","./images/farmer.png":"9BQiJ","./images/landlord.png":"7zXGs","./knight":"1MEgH","./farmer":"6BICu","./images/settings.png":"iBKS6","./landlord":"PxGYI","./speechbubble":"e8i23"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37295,10 +37294,16 @@ class Brandaan extends _pixiJs.AnimatedSprite {
         super.update(delta);
         this.x += this.xSpeed * delta;
         this.y += this.ySpeed * delta;
+        // // beweeg het karakter over de map maar niet buiten beeld
+        this.x = this.clamp(this.x, 0, 800);
+        this.y = this.clamp(this.y, 0, 500);
         this.keepInScreen();
     }
     keepInScreen() {
         if (this.getBounds().left > this.game.pixi.screen.right) this.x = -this.getBounds().width;
+    }
+    clamp(num, min, max) {
+        return Math.min(Math.max(num, min), max);
     }
 }
 
@@ -37310,9 +37315,6 @@ module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "farmer
 
 },{"./helpers/bundle-url":"lgJ39"}],"7zXGs":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "landlord.ff033fb2.png" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"lgJ39"}],"iBKS6":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "settings.b980eab7.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"1MEgH":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -37361,69 +37363,10 @@ class Farmer extends _character.Character {
     }
 }
 
-},{"./character":"a2c8k","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iGTI0":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "UI", ()=>UI
-);
-var _pixiJs = require("pixi.js");
-var _settingButton = require("./settingButton");
-class UI extends _pixiJs.Container {
-    constructor(game){
-        super();
-        this.game = game;
-        const style = new _pixiJs.TextStyle({
-            fontFamily: 'ArcadeFont',
-            fontSize: 45,
-            fontWeight: 'bold',
-            fill: [
-                '#000000'
-            ]
-        });
-        this.timeMachine = new _pixiJs.Text(`3 onderdelen`, style);
-        this.addChild(this.timeMachine);
-        this.timeMachine.x = 100;
-        this.timeMachine.y = 10;
-        this.settings = new _settingButton.SettingButton(this.game.loader.resources["settingsTexture"].texture, this);
-        this.game.pixi.stage.addChild(this.settings);
-        this.settings.x = 10;
-        this.settings.y = 10;
-    }
-}
+},{"./character":"a2c8k","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iBKS6":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "settings.b980eab7.png" + "?" + Date.now();
 
-},{"pixi.js":"dsYej","./settingButton":"lHXkm","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lHXkm":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "SettingButton", ()=>SettingButton
-);
-var _pixiJs = require("pixi.js");
-var _settings = require("./settings");
-class SettingButton extends _pixiJs.Sprite {
-    constructor(texture, ui){
-        super(texture);
-        this.scale.set(0.03);
-        this.interactive = true;
-        this.on('pointerdown', ()=>this.onClick()
-        );
-    }
-    onClick() {
-        new _settings.Settings();
-    }
-}
-
-},{"pixi.js":"dsYej","./settings":"5blfu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5blfu":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Settings", ()=>Settings
-);
-var _pixiJs = require("pixi.js");
-class Settings extends _pixiJs.Container {
-    constructor(texture, ui){
-        super();
-    }
-}
-
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"PxGYI":[function(require,module,exports) {
+},{"./helpers/bundle-url":"lgJ39"}],"PxGYI":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Landlord", ()=>Landlord

@@ -100,6 +100,10 @@ export class Brandaan extends PIXI.AnimatedSprite {
         this.x += this.xSpeed * delta
         this.y += this.ySpeed * delta
 
+                // // beweeg het karakter over de map maar niet buiten beeld
+                this.x = this.clamp(this.x, 0, 800)
+                this.y = this.clamp(this.y, 0, 500)
+
         this.keepInScreen()
     }
 
@@ -107,5 +111,8 @@ export class Brandaan extends PIXI.AnimatedSprite {
         if(this.getBounds().left > this.game.pixi.screen.right){
             this.x =-this.getBounds().width
         }
+    }
+    clamp(num: number, min: number, max: number) {
+        return Math.min(Math.max(num, min), max)
     }
 }
